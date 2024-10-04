@@ -1,3 +1,3 @@
-# [Tema 1](./sge_grb/ut01/index.md)  
-# [Tema 2](./sge_grb/ut02/index.md)  
-# [Tema 3](./sge_grb/ut03/index.md)
+# [Tema 1](ut01/index.md)  
+# [Tema 2](ut02/index.md)  
+# [Tema 3](ut03/index.md)
