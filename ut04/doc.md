@@ -1,3 +1,4 @@
-# PRIMEROS PASOS EN PYTHON
-
-[PR0401](PR0401/doc.md)
+# [PR0401](PythonBasico.html)
+# [PR0402](cadenas.html)
+# [PR0403](listas.html)
+# [PR0404](ProgramacionFuncional.html)
