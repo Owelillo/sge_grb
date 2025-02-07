@@ -6,4 +6,5 @@
 # [Tema 5](ut05/index.md)
 # [Tema 6](ut06/index.md)
 # [Tema 7](ut07/index.md)
+# [PROYECTO 2](proyecto_2/doc.md)
 
