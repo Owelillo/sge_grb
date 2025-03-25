@@ -8,3 +8,6 @@
 # [Tema 7](ut07/index.md)
 # [PROYECTO 2](proyecto_2/doc.md)
 
+# [EJERCICIO 1 RECUPERACION](PR04R1.py)
+
+# [EJERCICIO 2 RECUPERACION](PR04R3.py)
