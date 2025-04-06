@@ -45,7 +45,7 @@ def matricular_alumno():
     while(contador != 1):
         asig_alumno = input("Dime una asignatura")
         asig_nota = int(input("Ahora su nota"))
-
+        
         if asig_alumno in nuevo_alumno["Modulos"]:
             print("Ese módulo ya lo está cursando")
         else:

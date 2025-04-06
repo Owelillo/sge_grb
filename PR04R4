@@ -1,0 +1,100 @@
+biblioteca = {"38292H": 
+    {"titulo": "One piece", "autor": "Goda", "año_publicacion": 1998, "copias_disponibles": 21372, "prestados": 0}}
+
+def agregar_libro():
+    ISBN = input("Dime el código ISBN")
+    titulo = input("Dime el título del libro")
+    autor = input("Dime el autor del libro")
+    anyo = input("Dime el año de publicación del libro")
+    copias = input("Dime las copias disponibles del libro")
+    # prestados empieza en 0
+    
+    if ISBN in biblioteca:
+        print("El ISBN ya existe.")
+    else:    
+        biblioteca[ISBN] = {"titulo": titulo, "Autor": autor, "Año": anyo, "Copias": copias, "Prestados": 0}
+            
+def prestar_libro(isbn):
+    
+    for codigo, libro in biblioteca.items():
+        if codigo == isbn:
+            if libro["copias_disponibles"] == 0:
+                print("No hay copias disponibles")
+            else:
+                libro["copias_disponibles"] = libro["copias_disponibles"] - 1
+                libro["prestados"] = libro["prestados"] + 1
+                ver_libros()
+
+def devolver_libro(isbn):
+    for codigo, libro in biblioteca.items():
+        if codigo == isbn:
+            if libro["copias_disponibles"] == 0:
+                print("No hay copias disponibles")
+            else:
+                libro["copias_disponibles"] = libro["copias_disponibles"]  + 1
+                libro["prestados"] = libro["prestados"] - 1
+                ver_libros()
+                
+
+def ver_libros():
+    for codigo, libro in biblioteca.items():
+        print(f"Titulo: {libro['titulo']}, Copias: {libro['copias_disponibles']}, Prestados: {libro['prestados']}")
+  
+def buscar_por_titulo(titulo):
+    resultado = []
+    for libro in biblioteca.values():
+        tituloLower = titulo.lower()
+        if tituloLower in libro["titulo"].lower():
+            resultado.append(libro)
+    
+    if resultado:
+        for libro in resultado:
+            print(f"Titulo: {libro['titulo']}, Copias: {libro['copias_disponibles']}, Prestados: {libro['prestados']}")
+    return resultado
+
+def libros_mas_prestados():
+    libros_mas_prestados = []
+    libro_mas_prestado = 0
+    
+    for libro in biblioteca.values():
+        if libro["prestados"] > libro_mas_prestado:
+            libros_mas_prestados.append(libro)
+
+    for libro in libros_mas_prestados:
+        print(f"Titulo: {libro['titulo']}, Copias: {libro['copias_disponibles']}, Prestados: {libro['prestados']}")
+    
+def menu():
+    while True:
+        print("\nMenú:")
+        print("1. Agregar libro")
+        print("2. Prestar libro")
+        print("3. Devolver libro")
+        print("4. Buscar por titulo")
+        print("5. Libros mas prestados")
+        print("6. Estadísticas")
+        print("7. Salir")
+        opcion = input("Seleccione una opción: ")
+
+        if opcion == '1':
+            agregar_libro()
+        elif opcion == '2':
+            isbn = input("Dime el isbn: ")
+            prestar_libro(isbn)
+        elif opcion == '3':
+            isbn = input("Dime el isbn: ")
+            devolver_libro(isbn)
+        elif opcion == '4':
+            titulo = input("Dime el titulo: ")
+            buscar_por_titulo(titulo)
+        elif opcion == '5':
+            libros_mas_prestados()
+        elif opcion == '6':
+            ver_estadisticas()
+        elif opcion == '7':
+            print("Datos guardados en memoria. ¡Hasta pronto!")
+            break
+        else:
+            print("Opción no válida.")
+
+if __name__ == '__main__':
+    menu()
