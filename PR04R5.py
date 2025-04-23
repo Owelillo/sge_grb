@@ -1,13 +1,26 @@
 import datetime
 
-Vehiculos = [{"Marca": "Audi", "Modelo": "Si", "Num_pasajeros": 5, "Combustible": "gasolina", "Consumo": 20}]
+
+Vehiculos = [{"Id": "0001", "Marca": "Audi", "Modelo": "Si", "Num_pasajeros": 5, "Combustible": "gasolina", "Consumo": 20}]
 
 Viajes = [{"Nombre": "Go", "Destino": "Manzanilla", "Fecha": "20/05/2025", "Vehiculo": "Audi", "Pasajeros": "2", "Distancia": 200}]
 
-
+contador_ids = 1
 def añadir_vehiculo():
-    marca = input("Dime la marca del vehículo: ")
-    modelo = input("Dime el modelo del vehículo: ")
+    global contador_ids
+    while True:
+        marca = input("Dime la marca del vehículo: ")
+        if not marca:
+            print("La marca es obligatoria")
+        else:
+            break
+
+    while True:
+        modelo = input("Dime el modelo del vehículo: ")
+        if not modelo:
+            print("El modelo es obligatorio")
+        else:
+            break
 
     # debe ser un número
     while True:
@@ -32,24 +45,30 @@ def añadir_vehiculo():
             print("El consumo debe ser un número")
         else:
             break
-    nuevo_vehiculo = {"Marca": marca, "Modelo": modelo, "Num_pasajeros": num_pasajeros, "Combustible": combustible.lower(), "Consumo": consumo}
+    
+    # convierto en una cadena el contador. y se colocan 4 números, poniendo 0 si hace falta
+    vehiculo_id = f"{contador_ids:04d}"
+    contador_ids+=1
+
+
+    nuevo_vehiculo = {"Id": vehiculo_id, "Marca": marca, "Modelo": modelo, "Num_pasajeros": num_pasajeros, "Combustible": combustible.lower(), "Consumo": consumo}
     Vehiculos.append(nuevo_vehiculo)
     print("Vehículo añadido con éxito!")
 
 
 def mostrar_vehiculos():
     for vehiculo in Vehiculos:
-        print(f"Marca: {vehiculo['Marca']}, Modelo: {vehiculo['Modelo']} Número de pasajeros: {vehiculo['Num_pasajeros']} Combustible: {vehiculo['Combustible']} Consumo: {vehiculo['Consumo']}")
+        print(f"Id: {vehiculo['Id']}, Marca: {vehiculo['Marca']}, Modelo: {vehiculo['Modelo']} Número de pasajeros: {vehiculo['Num_pasajeros']} Combustible: {vehiculo['Combustible']} Consumo: {vehiculo['Consumo']}")
 
 
 
 def eliminar_vehiculo():
-    marca = input("Dime la marca del vehículo a eliminar: ")
+    id = input("Dime el id del vehículo a eliminar: ")
     modelo = input("Dime el modelo del vehículo: ")
 
     vehiculo_encontrado = False
     for vehiculo in Vehiculos:
-        if vehiculo['Marca'] == marca and vehiculo['Modelo'] == modelo:
+        if vehiculo['Id'] == id and vehiculo['Modelo'] == modelo:
             Vehiculos.remove(vehiculo)
             print(f"El vehículo {vehiculo['Marca']} ha sido eliminado con éxito")
             vehiculo_encontrado = True
@@ -71,13 +90,13 @@ def añadir_viaje():
     
     for vehiculo in Vehiculos:
         print("Vehículos dados de alta: ")
-        print(f"{vehiculo['Marca']}")
+        print(f"Id: {vehiculo['Id']}, Marca: {vehiculo['Marca']}")
 
-    nombre_vehiculo = input("Escoge uno entre los que están dados de alta: ")
+    id = input("Escoge el id del vehículo que quieras: ")
     vehiculo_encontrado = False
     while vehiculo_encontrado == False:
         for vehiculo in Vehiculos:
-            if nombre_vehiculo == vehiculo["Marca"]:
+            if id == vehiculo["Id"]:
                 print(f"Perfecto, irás con tu {vehiculo['Marca']}")
                 vehiculo_encontrado = True
                 break
@@ -89,27 +108,27 @@ def añadir_viaje():
     
     pasajeros = int(input("Dime el número de pasajeros que queréis ir: "))
 
-    while True:
-        for vehiculo in Vehiculos:
-            if vehiculo['Marca'] == nombre_vehiculo:
-                num_pasajeros = vehiculo['Num_pasajeros']
+    for vehiculo in Vehiculos:
+        if vehiculo['Id'] == id:
+            while True:
+                num_pasajeros = int(vehiculo['Num_pasajeros'])
                 if pasajeros > num_pasajeros:
                     print("El número de pasajeros debe ser igual o menor al máximo.")
+                    pasajeros = int(input("Dime un número de pasajeros válido: "))
                 else:
                     print("Perfecto, ya casi lo tenemos.")
                     break
-        break
-    while True:
-        distancia = input("Finalmente dime la distancia que váis a recorrer: ")
-        if not distancia.isdigit():
-            print("La distancia debe ser un número.")
-        else:
-            break
+        while True:
+            distancia = input("Finalmente dime la distancia que váis a recorrer: ")
+            if not distancia.isdigit():
+                print("La distancia debe ser un número.")
+            else:
+                break
     
-    print("Ya tengo todos los datos, creando el viaje...")
-    nuevo_viaje = {'Nombre': nombre_viaje, 'Destino': destino, 'Fecha': fecha, 'Vehiculo': vehiculo, 'Pasajeros': pasajeros, 'Distancia': distancia}
-    Viajes.append(nuevo_viaje)
-    print("Viaje añadido correctamente.")
+        print("Ya tengo todos los datos, creando el viaje...")
+        nuevo_viaje = {'Nombre': nombre_viaje, 'Destino': destino, 'Fecha': fecha, 'Vehiculo': vehiculo, 'Pasajeros': pasajeros, 'Distancia': distancia}
+        Viajes.append(nuevo_viaje)
+        print("Viaje añadido correctamente.")
 
 
 def mostrar_viajes():
@@ -139,7 +158,7 @@ def estadisticas_coste():
     suma = 0
     costes_cada_persona = []
     for viaje in Viajes:
-        distancia = viaje['Distancia']
+        distancia = int(viaje['Distancia'])
         coste_viaje = int(distancia * 0.26)
         # aquí ya tengo el coste total de cada viaje
         suma = suma + int(coste_viaje)
@@ -155,11 +174,12 @@ def estadisticas_coste():
     print(f"El coste del viaje de todos los viajes es: {coste_viaje} Y la media por persona es de {media_persona}")
 
 def estadisticas_por_vehiculo():
-    su_vehiculo = input("¿De qué vehículo quieres ver sus estadísticas? ")
+    su_vehiculo = input("¿De qué vehículo quieres ver sus estadísticas?")
+    id = input("Dime el id del vehículo: ")
     suma = 0
     for vehiculo in Vehiculos:
         km_totales = 0
-        if vehiculo['Marca'] == su_vehiculo:
+        if vehiculo['Id'] == id:
             for viajes in Viajes:
                 if viajes['Vehiculo'] == su_vehiculo:
                     # aquí ya tengo los km totales
@@ -177,7 +197,7 @@ def estadisticas_por_vehiculo():
                 # precio custom para cada tipo de combustible
                 precio_por_litro = 1.76
             for viaje in Viajes:
-                distancia = viaje['Distancia']
+                distancia = int(viaje['Distancia'])
                 coste_viaje = int(distancia * precio_por_litro)
                 # aquí ya tengo el coste total de todos los viajes con ese vehiculo
                 suma = suma + int(coste_viaje)
